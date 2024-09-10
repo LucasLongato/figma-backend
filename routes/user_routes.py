@@ -3,7 +3,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request,
 from models import db
 from models.task import Task
 from models.user import User
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 
 user_bp = Blueprint('user_bp', __name__)
 
@@ -13,15 +13,11 @@ def register():
     login = data.get('login')
     password = data.get('password')
 
-    # Check if the user already exists
     user_exists = User.query.filter_by(login=login).first()
     if user_exists:
         return jsonify({"error": "User already exists"}), 400
 
-    # Create a new user
     new_user = User(login=login, password=password)
-    
-    # Add the new user to the database
     db.session.add(new_user)
     db.session.commit()
 
@@ -32,32 +28,58 @@ def login():
     data = request.get_json()
     login = data.get('login')
     password = data.get('password')
-
-    # Find the user by login
     user = User.query.filter_by(login=login).first()
     
     if user and user.check_password(password):
-        # Log the user in
         login_user(user)
         return jsonify({"message": f"Logged in as {login}"}), 200
     else:
         return jsonify({"error": "Invalid credentials"}), 401
 
-@user_bp.route('/all', methods=['GET'])
+@user_bp.route('/logout', methods=['POST'])
+@login_required
+def logout():
+    logout_user()
+    return jsonify({"message": "Logged out successfully"}), 200
+
+@user_bp.route('/', methods=['GET'])
 def get_all_users():
-    # Fetch all users from the database
     users = User.query.all()
 
-    # Return user data with login and hashed password
     user_list = [
         {
-            "login": user.login,
-            "password": user.password  # This will return the hashed password
+            "id": user.id,
+            "login": user.login
         }
         for user in users
     ]
     
     return jsonify(user_list), 200
+
+@user_bp.route('/<int:user_id>', methods=['GET'])
+def get_user_info(user_id):
+    user = User.query.get_or_404(user_id)
+
+    # List of tasks the user is assigned to
+    tasks = [
+        {
+            "id": task.id,
+            "title": task.title,
+            "description": task.description,
+            "status": task.status,
+            "owner_id": task.owner_id
+        }
+        for task in user.tasks
+    ]
+
+    user_info = {
+        "id": user.id,
+        "password": user.password,
+        "login": user.login,
+        "tasks": tasks
+    }
+
+    return jsonify(user_info), 200
 
 # @user_bp.route('/assign_task', methods=['POST'])
 # def assign_task():

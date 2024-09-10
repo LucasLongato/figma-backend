@@ -14,8 +14,8 @@ bcrypt.init_app(app)
 login_manager.init_app(app)
 
 # Register Blueprints
-app.register_blueprint(user_bp, url_prefix="/users")
-app.register_blueprint(task_bp, url_prefix="/")
+app.register_blueprint(user_bp, url_prefix="/user")
+app.register_blueprint(task_bp, url_prefix="/task")
 
 @login_manager.user_loader
 def load_user(user_id):
