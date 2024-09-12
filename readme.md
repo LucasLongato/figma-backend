@@ -17,6 +17,13 @@ e deve estar com o flask instalado para rodar. Caso não esteja rodar esse coman
 
 / pip install flask /
 
+Usemos o Banco sqlite para armazenar os dados no banco.
+Caso nao tenha o slite faça os seguintes passos para a instalação:
+
+- Baixe o SQLite aqui (baixe a versão "Precompiled Binaries for Windows").
+- Extraia o arquivo baixado em um diretório de sua escolha.
+- Adicione o caminho do executável sqlite3.exe ao PATH do sistema para acessá-lo de qualquer terminal.
+
 
 
 abaixo podemos ver alguns enpoints:
