@@ -1,4 +1,25 @@
-# Task Management API Documentation
+# Task Management
+O gerenciador de tarefas é uma ferramenta que auxilia no planejamento, organização e acompanhamento de atividades ou tarefas. Ele permite que os usuários criem, visualizem, editem e monitorem suas tarefas, facilitando a gestão do tempo e a produtividade. Esse tipo de software pode ser usado tanto individualmente quanto em equipes, promovendo maior eficiência no trabalho.
+
+
+
+O nosso gerenciador de tarefas ele tem as seguintes telas:
+
+## login 
+
+## cadastro 
+## Local aonde fica as tarefas
+## E o pop de criação das Tarefas:
+
+para poder executar o programa acima deve ter o python instalado
+Caso não tenha click no link https://www.python.org/downloads/
+e deve estar com o flask instalado para rodar. Caso não esteja rodar esse comando no terminal.
+
+/ pip install flask /
+
+
+
+abaixo podemos ver alguns enpoints:
 
 ## Endpoints
 
